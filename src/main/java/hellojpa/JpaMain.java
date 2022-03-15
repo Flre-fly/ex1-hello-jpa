@@ -5,6 +5,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.transaction.Transaction;
+import java.util.List;
 
 public class JpaMain {
     public static void main(String[] args){
@@ -16,12 +17,11 @@ public class JpaMain {
         tx.begin();
 
         try{
-            Member findMember = em.find(Member.class, 1L);
-            System.out.println(findMember.getName());
-            findMember.setName("바뀐이름");
-            System.out.println(findMember.getName());
 
-            //이때 em.persist를 하지 않아도 된다
+            Member findMember = em.find(Member.class, 1L);
+            findMember.setName("변경변경");
+
+            em.detach(findMember);
             tx.commit();
         }catch (Exception e){
             tx.rollback();
