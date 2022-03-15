@@ -17,8 +17,11 @@ public class JpaMain {
 
         try{
             Member findMember = em.find(Member.class, 1L);
-            em.remove(findMember);
+            System.out.println(findMember.getName());
+            findMember.setName("바뀐이름");
+            System.out.println(findMember.getName());
 
+            //이때 em.persist를 하지 않아도 된다
             tx.commit();
         }catch (Exception e){
             tx.rollback();
