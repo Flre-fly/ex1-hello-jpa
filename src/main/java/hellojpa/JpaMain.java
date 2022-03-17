@@ -25,13 +25,20 @@ public class JpaMain {
             Member member = new Member();
             member.setUsername("유저이름1");
             member.setTeam(team);
-
-            //왜 아래의 코드가 필요없는가?
-            /*List<Member> members = new ArrayList<>();
-            members.add(member);
-            team.setMembers(members);*/
-
             em.persist(member);
+
+            team.getMembers().add(member);
+
+            em.flush();
+            em.clear();
+
+            Team findTeam = em.find(Team.class, team.getId());
+            List<Member> members = findTeam.getMembers();
+
+            System.out.println("=======");
+            for(Member m : members){
+                System.out.println("m = " + m.getUsername());
+            }
 
 
             tx.commit();
