@@ -5,6 +5,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.transaction.Transaction;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JpaMain {
@@ -17,11 +18,22 @@ public class JpaMain {
         tx.begin();
 
         try{
+            Team team = new Team();
+            team.setName("팀1");
+            em.persist(team);
 
-            Member findMember = em.find(Member.class, 1L);
-            findMember.setName("변경변경");
+            Member member = new Member();
+            member.setUsername("유저이름1");
+            member.setTeam(team);
 
-            em.detach(findMember);
+            //왜 아래의 코드가 필요없는가?
+            /*List<Member> members = new ArrayList<>();
+            members.add(member);
+            team.setMembers(members);*/
+
+            em.persist(member);
+
+
             tx.commit();
         }catch (Exception e){
             tx.rollback();
