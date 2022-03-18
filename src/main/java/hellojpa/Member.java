@@ -1,7 +1,9 @@
 package hellojpa;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Member {
@@ -10,6 +12,10 @@ public class Member {
     private Long id;
     @Column(name = "name")
     private String username;
+
+    @ManyToMany
+    @JoinTable(name = "member_product")
+    private List<Product> products = new ArrayList<>();
 
     @OneToOne
     @JoinColumn(name = "locker_id")
