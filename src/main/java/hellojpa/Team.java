@@ -13,6 +13,10 @@ public class Team {
 
     private String name;
 
+    @OneToMany
+    @JoinColumn(name = "team_id")
+    private List<Member> members = new ArrayList<>();
+
     public Long getId() {
         return id;
     }
@@ -37,6 +41,5 @@ public class Team {
         this.members = members;
     }
 
-    @OneToMany
-    private List<Member> members = new ArrayList<>();
+
 }
