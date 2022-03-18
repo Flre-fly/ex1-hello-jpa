@@ -11,6 +11,13 @@ public class Member {
     @Column(name = "name")
     private String username;
 
+    @OneToOne
+    @JoinColumn(name = "locker_id")
+    private Locker locker;
+
+    @ManyToOne
+    @JoinColumn(name = "team_id", insertable = false, updatable = false)//이 옵션을 넣어주면 읽기 전용이 되어버린다
+    private Team team;
 
     public Long getId() {
         return id;
