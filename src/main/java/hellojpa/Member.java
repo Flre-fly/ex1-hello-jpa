@@ -9,13 +9,13 @@ import java.util.List;
 public class Member {
     @Id
     @GeneratedValue
+    @Column(name = "member_id")
     private Long id;
     @Column(name = "name")
     private String username;
 
-    @ManyToMany
-    @JoinTable(name = "member_product")
-    private List<Product> products = new ArrayList<>();
+    @OneToMany(mappedBy = "member")
+    private List<MemberProduct> memberProducts = new ArrayList<>();
 
     @OneToOne
     @JoinColumn(name = "locker_id")

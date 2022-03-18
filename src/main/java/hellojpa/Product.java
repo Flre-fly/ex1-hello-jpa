@@ -8,10 +8,13 @@ import java.util.List;
 public class Product {
     @Id
     @GeneratedValue
+    @Column(name = "product_id")
     private Long id;
 
-    @ManyToMany(mappedBy = "products")
-    private List<Member> member = new ArrayList<>();
+    //연관관계 주인이 product라는 의미임
+    //OneToMany는 왜 .. JoinColumn을 안쓰지
+    @OneToMany(mappedBy = "product")
+    private List<MemberProduct> memberProducts = new ArrayList<>();
 
     private String name;
 }
