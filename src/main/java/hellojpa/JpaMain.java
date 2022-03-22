@@ -5,6 +5,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.transaction.Transaction;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,21 +19,10 @@ public class JpaMain {
         tx.begin();
 
         try{
-            Movie movie = new Movie();
-            movie.setActor("배우1");
-            movie.setDirector("감독1");
-            movie.setName("바람과함께사라지다");
-            movie.setPrice(1000);
-            em.persist(movie);
-
-            //영속성 컨텍스트에 있는걸 다 날려서 디비로의 조회 쿼리를 날리도록 한다
-            em.flush();
-            em.clear();
-
-
-            //movie를 가져오려면 item과 join해서 가져와야겠지?
-            Movie findMovie = em.find(Movie.class, 1L);
-            System.out.println(findMovie.getName() + "dddddddddddddddddddddddd");
+            Member member = new Member();
+            member.setUsername("홍길동");
+            member.setCreatedBy("김민지");
+            member.setCreatedDate(LocalDateTime.now());
 
             tx.commit();
         }catch (Exception e){
