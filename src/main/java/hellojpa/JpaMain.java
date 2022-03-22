@@ -29,6 +29,11 @@ public class JpaMain {
             em.persist(parent);
 
 
+            System.out.println("---------------");
+            parent.getChildList().remove(0);
+            System.out.println("---------------");
+
+
             tx.commit();
         }catch (Exception e){
             tx.rollback();
