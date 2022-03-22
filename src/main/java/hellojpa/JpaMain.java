@@ -28,9 +28,15 @@ public class JpaMain {
 
             em.persist(parent);
 
+            em.flush();
+            em.clear();
+            //영속성 컨텍스트가 비워짐
+
+            Parent p1 = em.find(Parent.class, parent.getId());
+
 
             System.out.println("---------------");
-            parent.getChildList().remove(0);
+            p1.getChildList().remove(0);
             System.out.println("---------------");
 
 
