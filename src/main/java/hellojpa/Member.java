@@ -21,7 +21,7 @@ public class Member extends BaseEntity{
     @JoinColumn(name = "locker_id")
     private Locker locker;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id", insertable = false, updatable = false)//이 옵션을 넣어주면 읽기 전용이 되어버린다
     private Team team;
 
@@ -41,4 +41,29 @@ public class Member extends BaseEntity{
         this.username = username;
     }
 
+    public List<MemberProduct> getMemberProducts() {
+        return memberProducts;
+    }
+
+    public void setMemberProducts(List<MemberProduct> memberProducts) {
+        this.memberProducts = memberProducts;
+    }
+
+    public Locker getLocker() {
+        return locker;
+    }
+
+    public void setLocker(Locker locker) {
+        this.locker = locker;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    //
+    public void addTeam(Team team) {
+        this.team = team;
+        team.getMembers().add(this);
+    }
 }

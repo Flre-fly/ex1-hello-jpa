@@ -19,14 +19,37 @@ public class JpaMain {
         tx.begin();
 
         try{
-            Member member = new Member();
-            member.setUsername("홍길동");
-            member.setCreatedBy("김민지");
-            member.setCreatedDate(LocalDateTime.now());
+            Member member1 = new Member();
+            member1.setUsername("member1");
+            em.persist(member1);
+
+            Member member2 = new Member();
+            member1.setUsername("member2");
+            em.persist(member2);
+
+            Team team = new Team();
+            team.setName("team1");
+            em.persist(team);
+
+            Team team2 = new Team();
+            team.setName("team2");
+            em.persist(team2);
+
+            member1.addTeam(team);
+            member2.addTeam(team2);
+
+            em.flush();
+            em.clear();
+
+            List<Member> members = em.createQuery("select m from Member m", Member.class).getResultList();
+
+
+
 
             tx.commit();
         }catch (Exception e){
             tx.rollback();
+            e.printStackTrace();
         }
         em.close();
         emf.close();
