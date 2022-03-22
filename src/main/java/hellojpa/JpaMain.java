@@ -18,16 +18,21 @@ public class JpaMain {
         tx.begin();
 
         try{
-            Member member = new Member();
-            member.setUsername("member1");
+            Movie movie = new Movie();
+            movie.setActor("배우1");
+            movie.setDirector("감독1");
+            movie.setName("바람과함께사라지다");
+            movie.setPrice(1000);
+            em.persist(movie);
 
-            em.persist(member);
+            //영속성 컨텍스트에 있는걸 다 날려서 디비로의 조회 쿼리를 날리도록 한다
+            em.flush();
+            em.clear();
 
-            Team team = new Team();
-            team.setName("teamA");
-            team.getMembers().add(member);
 
-            em.persist(team);
+            //movie를 가져오려면 item과 join해서 가져와야겠지?
+            Movie findMovie = em.find(Movie.class, 1L);
+            System.out.println(findMovie.getName() + "dddddddddddddddddddddddd");
 
             tx.commit();
         }catch (Exception e){
