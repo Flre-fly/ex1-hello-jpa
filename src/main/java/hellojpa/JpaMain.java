@@ -8,6 +8,7 @@ import javax.transaction.Transaction;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class JpaMain {
     public static void main(String[] args){
@@ -27,25 +28,32 @@ public class JpaMain {
             Member member1 = new Member();
             member1.setUsername("member1");
             //member1.setHomeAddress(address);
-            member1.setHomeAddress(new Address(address.getZipcode(), address.getStreet(), address.getCity()));
+
+            member1.getFavoriteFoods().add("족발");
+            member1.getFavoriteFoods().add("보쌈");
+            member1.getFavoriteFoods().add("피자");
+
+            member1.getAddressHistory().add(new Address("old1", "a", "100"));
+            member1.getAddressHistory().add(new Address("old2", "a", "100"));
+
             em.persist(member1);
 
-            Member member2 = new Member();
-            member2.setUsername("member2");
-            member2.setHomeAddress(address);
-            em.persist(member2);
+            em.flush();
+            em.clear();
+            System.out.println("=========start==========");
+            Member findMember = em.find(Member.class, member1.getId());
+            Set<String> favoriteFoods  = findMember.getFavoriteFoods();
+            for(String favoriteFood : favoriteFoods){
+                System.out.println(favoriteFood);
+            }
 
-            member1.getHomeAddress().setCity("변경된 city");
 
-            Address address2 = new Address(address.getZipcode(), address.getStreet(), address.getCity());
-
-            System.out.println(address2.equals(address));
 
 
             tx.commit();
         }catch (Exception e){
-            tx.rollback();
             e.printStackTrace();
+            tx.rollback();
         }
         em.close();
         emf.close();
