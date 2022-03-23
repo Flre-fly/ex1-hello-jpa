@@ -19,25 +19,27 @@ public class JpaMain {
         tx.begin();
 
         try{
-            Child child1 = new Child();
-            Child child2 = new Child();
+            Address address = new Address();
+            address.setCity("city");
+            address.setStreet("길1");
+            address.setZipcode("zipcodeeee");
 
-            Parent parent = new Parent();
-            parent.addChild(child1);
-            parent.addChild(child2);
+            Member member1 = new Member();
+            member1.setUsername("member1");
+            //member1.setHomeAddress(address);
+            member1.setHomeAddress(new Address(address.getZipcode(), address.getStreet(), address.getCity()));
+            em.persist(member1);
 
-            em.persist(parent);
+            Member member2 = new Member();
+            member2.setUsername("member2");
+            member2.setHomeAddress(address);
+            em.persist(member2);
 
-            em.flush();
-            em.clear();
-            //영속성 컨텍스트가 비워짐
+            member1.getHomeAddress().setCity("변경된 city");
 
-            Parent p1 = em.find(Parent.class, parent.getId());
+            Address address2 = new Address(address.getZipcode(), address.getStreet(), address.getCity());
 
-
-            System.out.println("---------------");
-            p1.getChildList().remove(0);
-            System.out.println("---------------");
+            System.out.println(address2.equals(address));
 
 
             tx.commit();
