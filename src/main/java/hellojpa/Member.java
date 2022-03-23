@@ -14,6 +14,24 @@ public class Member extends BaseEntity{
     @Column(name = "name")
     private String username;
 
+    @Embedded
+    private Address homeAddress;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "city",
+            column = @Column(name = "work_city")),
+            @AttributeOverride(name = "street",
+            column = @Column(name = "work_street")),
+            @AttributeOverride(name = "zipcode",
+                    column = @Column(name = "work_zipcode"))
+
+})
+    private Address workAddress;
+
+    @Embedded
+    private Period workPeriod;
+
     @OneToMany(mappedBy = "member")
     private List<MemberProduct> memberProducts = new ArrayList<>();
 
